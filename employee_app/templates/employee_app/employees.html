@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Employee List</title>
+       {% load static %}
+  <link
+    href="{% static '/src/employee_table.css' %}"
+    rel="stylesheet"
+    type="text/css"
+  />
+    <script>
+      async function fetchEmployees() {
+<!--         const response = await fetch("/employee_api/"); -->
+               const response = await fetch("/employee_api/");
+        const employees = await response.json();
+        const table = document.getElementById("employeeTable");
+        employees.forEach((employee) => {
+          const row = table.insertRow();
+          row.innerHTML = `
+                    <td>${employee.id}</td>
+                    <td>${employee.name}</td>
+                    <td>${employee.designation}</td>
+                    <td>${employee.department}</td>
+                    <td>${employee.email}</td>
+                `;
+        });
+      }
+
+      window.onload = fetchEmployees;
+    </script>
+  </head>
+  <body>
+    <h1>Employee List</h1>
+    <table border="1">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Designation</th>
+          <th>Department</th>
+          <th>Email</th>
+        </tr>
+      </thead>
+      <tbody id="employeeTable"></tbody>
+    </table>
+  </body>
+</html>
